@@ -1040,13 +1040,14 @@ td.pointer {
 }
 
 .message_controls {
-    display: inline-block;
+    display: inline-flex;
     position: absolute;
     top: -1px;
-    right: -56px;
-    width: 54px;
+    right: -43px;
+    width: 58px;
     height: 22px;
     z-index: 1;
+    gap: 8px;
 
     /* This is a bit tricky; we need to reserve space for the message
        controls even when the message isn't hovered, so that hover
@@ -1489,7 +1490,8 @@ td.pointer {
     }
 }
 
-.actions_hover:hover {
+.actions_hover:hover,
+.respond_button:hover {
     color: hsl(200, 100%, 40%);
 }
 
@@ -3106,7 +3108,8 @@ div.topic_edit_spinner .loading_indicator_spinner {
 
     /* In mobile views we place it just to the right of the time element */
     .message_controls {
-        right: 40px;
+        right: 46px;
+        gap: 6.5px;
     }
 
     .include-sender .message_controls {
@@ -3117,7 +3120,7 @@ div.topic_edit_spinner .loading_indicator_spinner {
 
     .message_time {
         left: auto;
-        right: -5px;
+        right: -9px;
     }
 
     .sender_name {
