@@ -891,6 +891,13 @@ export function get_non_active_human_ids() {
     return human_ids;
 }
 
+export function verify_non_active_human_id(user_id) {
+    if (non_active_user_dict.has(user_id)) {
+        return true;
+    }
+    return false;
+}
+
 export function get_active_human_count() {
     let count = 0;
     for (const person of active_user_dict.values()) {

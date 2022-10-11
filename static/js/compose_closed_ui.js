@@ -72,6 +72,16 @@ function update_buttons(text_stream) {
     update_conversation_button(text_conversation, title_conversation);
 }
 
+// disable compose box reply button, when the recipient is a deactivated user.
+function update_reply_button_disable_status(disable = false, title) {
+    $(".compose_reply_button").attr("disabled", disable);
+    if (!title) {
+        const title_text = $t({defaultMessage: "Reply to selected message"});
+        title = title_text + " (r)";
+    }
+    $(".compose_reply_button").prop("title", title);
+}
+
 export function update_buttons_for_private() {
     const text_stream = $t({defaultMessage: "New stream message"});
     update_buttons(text_stream);
@@ -80,6 +90,60 @@ export function update_buttons_for_private() {
 export function update_buttons_for_stream() {
     const text_stream = $t({defaultMessage: "New topic"});
     update_buttons(text_stream);
+}
+
+// disable the reply button if the recipient is a deactivated user,
+// there are two different ways to get the ids of the recipient,
+// one is to get it from narrow_state for pm other is to get the
+// id from the selected_message, this is useful for all message narrow.
+// selected_message.display_recipient is an array in case of pm,
+// it is a string in case of stream/topic
+function update_reply_button_deactivated_users() {
+    if (narrow_state.pm_ids_string()) {
+        const check_user_is_deactivated = compose_actions.check_pm_deactivated(
+            narrow_state.pm_ids_string(),
+            false,
+        );
+        if (check_user_is_deactivated.is_user_id_deactivated) {
+            const disable_reply = true;
+            let title_reply;
+            if (check_user_is_deactivated.user_ids_length === 1) {
+                title_reply = $t({
+                    defaultMessage: "Cannot send message to a deactivated user.",
+                });
+            } else {
+                title_reply = $t({
+                    defaultMessage:
+                        "Cannot send a message to a group that contains a deactivated user.",
+                });
+            }
+            return update_reply_button_disable_status(disable_reply, title_reply);
+        }
+    } else if (
+        message_lists.current.selected_message() &&
+        Array.isArray(message_lists.current.selected_message().display_recipient)
+    ) {
+        const ids_array = message_lists.current
+            .selected_message()
+            .display_recipient.map((object) => object.id);
+        const check_user_is_deactivated = compose_actions.check_pm_deactivated(false, ids_array);
+        if (check_user_is_deactivated.is_user_id_deactivated) {
+            const disable_reply = true;
+            let title_reply;
+            if (check_user_is_deactivated.user_ids_length < 3) {
+                title_reply = $t({
+                    defaultMessage: "Cannot send message to a deactivated user.",
+                });
+            } else {
+                title_reply = $t({
+                    defaultMessage:
+                        "Cannot send a message to a group that contains a deactivated user.",
+                });
+            }
+            return update_reply_button_disable_status(disable_reply, title_reply);
+        }
+    }
+    return update_reply_button_disable_status();
 }
 
 export function update_buttons_for_recent_topics() {
@@ -96,6 +160,8 @@ export function set_standard_text_for_reply_button() {
 }
 
 export function update_reply_recipient_label(message) {
+    // Change the reply button status whenever the recipient_label changes.
+    update_reply_button_deactivated_users();
     const recipient_label = get_recipient_label(message);
     if (recipient_label) {
         set_reply_button_label(

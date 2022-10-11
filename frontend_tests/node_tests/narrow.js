@@ -436,6 +436,20 @@ run_test("show_empty_narrow_message", ({mock_template}) => {
         ),
     );
 
+    people.deactivate(alice);
+    set_filter([["pm-with", alice.email]]);
+    hide_all_empty_narrow_messages();
+    narrow_banner.show_empty_narrow_message();
+    assert.equal(people.verify_non_active_human_id(alice.user_id), true);
+    assert.equal(
+        $(".empty_feed_notice_main").html(),
+        empty_narrow_html(
+            "translated: You have no private messages with Alice Smith.",
+            "translated HTML: Alice Smith is no longer active in the organization.",
+        ),
+    );
+
+    people.add_active_user(alice);
     set_filter([["pm-with", me.email + "," + alice.email]]);
     hide_all_empty_narrow_messages();
     narrow_banner.show_empty_narrow_message();
@@ -493,6 +507,19 @@ run_test("show_empty_narrow_message", ({mock_template}) => {
         empty_narrow_html(
             "translated: You have no group private messages with Alice Smith yet.",
             'translated HTML: Why not <a href="#" class="empty_feed_compose_private">start the conversation</a>?',
+        ),
+    );
+
+    people.deactivate(ray);
+    set_filter([["group-pm-with", ray.email]]);
+    hide_all_empty_narrow_messages();
+    narrow_banner.show_empty_narrow_message();
+    assert.equal(people.verify_non_active_human_id(ray.user_id), true);
+    assert.equal(
+        $(".empty_feed_notice_main").html(),
+        empty_narrow_html(
+            "translated: You have no group private messages with Raymond.",
+            "translated HTML: Raymond is no longer active in the organization.",
         ),
     );
 

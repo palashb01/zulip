@@ -327,6 +327,23 @@ function pick_empty_narrow_banner() {
                         ),
                     };
                 }
+                if (people.verify_non_active_human_id(user_ids[0])) {
+                    return {
+                        title: $t(
+                            {
+                                defaultMessage: "You have no private messages with {person}.",
+                            },
+                            {person: people.get_by_user_id(user_ids[0]).full_name},
+                        ),
+                        html: $t_html(
+                            {
+                                defaultMessage: "{person} is no longer active in the organization.",
+                            },
+                            {person: people.get_by_user_id(user_ids[0]).full_name},
+                        ),
+                    };
+                }
+
                 return {
                     title: $t(
                         {
@@ -397,6 +414,23 @@ function pick_empty_narrow_banner() {
                     }),
                 };
             }
+            if (people.verify_non_active_human_id(person_in_group_pm.user_id)) {
+                return {
+                    title: $t(
+                        {
+                            defaultMessage: "You have no group private messages with {person}.",
+                        },
+                        {person: person_in_group_pm.full_name},
+                    ),
+                    html: $t_html(
+                        {
+                            defaultMessage: "{person} is no longer active in the organization.",
+                        },
+                        {person: person_in_group_pm.full_name},
+                    ),
+                };
+            }
+
             return {
                 title: $t(
                     {
