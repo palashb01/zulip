@@ -1,4 +1,4 @@
-# Zulip overview
+# Zulip overviews
 
 [Zulip](https://zulip.com) is an open-source team collaboration tool with unique
 [topic-based threading][why-zulip] that combines the best of email and chat to
