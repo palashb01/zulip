@@ -1,15 +1,5 @@
 {{! Contents of the "message actions" popup }}
 <ul class="nav nav-list actions_popover">
-    {{#if should_display_quote_and_reply}}
-    <li>
-        <a class="respond_button" data-message-id="{{message_id}}" tabindex="0">
-            <i class="fa fa-reply" aria-hidden="true"></i> {{t "Quote and reply or forward" }}
-            <span class="hotkey-hint">(>)</span>
-        </a>
-    </li>
-    <hr />
-    {{/if}}
-
     {{#if editability_menu_item}}
     <li>
         <a class="popover_edit_message" data-message-id="{{message_id}}" tabindex="0">
