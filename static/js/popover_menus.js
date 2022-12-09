@@ -270,7 +270,7 @@ export function initialize() {
         // make the popover wider than this.
         maxWidth: "320px",
         placement: "bottom",
-        popperOptions: {toggle_
+        popperOptions: {
             modifiers: [
                 {
                     // The placement is set to bottom, but if that placement does not fit,
