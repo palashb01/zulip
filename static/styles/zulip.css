@@ -1041,14 +1041,13 @@ td.pointer {
 }
 
 .message_controls {
-    display: inline-flex;
+    display: inline-block;
     position: absolute;
     top: -1px;
-    right: -43px;
-    width: 58px;
+    right: -56px;
+    width: 54px;
     height: 22px;
     z-index: 1;
-    gap: 8px;
 
     /* This is a bit tricky; we need to reserve space for the message
        controls even when the message isn't hovered, so that hover
@@ -1505,8 +1504,7 @@ td.pointer {
     }
 }
 
-.actions_hover:hover,
-.respond_button:hover {
+.actions_hover:hover {
     color: hsl(200, 100%, 40%);
 }
 
@@ -3174,8 +3172,7 @@ textarea.invitee_emails {
 
     /* In mobile views we place it just to the right of the time element */
     .message_controls {
-        right: 46px;
-        gap: 6.5px;
+        right: 40px;
     }
 
     .include-sender .message_controls {
@@ -3186,7 +3183,7 @@ textarea.invitee_emails {
 
     .message_time {
         left: auto;
-        right: -9px;
+        right: -5px;
     }
 
     .sender_name {
