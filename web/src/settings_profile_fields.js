@@ -159,13 +159,16 @@ function read_external_account_field_data($profile_field_form) {
 function update_choice_delete_btn($container, display_flag) {
     const no_of_choice_row = $container.find(".choice-row").length;
 
-    // Disable delete button if there only one choice row
-    // Enable choice delete button more one than once choice
-    if (no_of_choice_row === 1) {
+    // Disable first row if there is only one valid choice row.
+    // Enable first row if there is more than one valid choice row.
+    // Comparing with 2 because including extra empty choice row.
+    if (no_of_choice_row === 2) {
         if (display_flag === true) {
-            $container.find(".choice-row .delete-choice").show();
+            $container.find(".choice-row .delete-choice").first().show();
+            $container.find("input").first().prop("disabled", false);
         } else {
-            $container.find(".choice-row .delete-choice").hide();
+            $container.find(".choice-row .delete-choice").first().hide();
+            $container.find("input").first().prop("disabled", true);
         }
     }
 }
@@ -177,6 +180,8 @@ function get_value_for_new_option(container) {
         return 0;
     }
 
+    // Display delete button if choice have some value.
+    $choice_rows.find(".delete-choice").removeClass("hide");
     const existing_option_values = [];
     $choice_rows.each(function () {
         existing_option_values.push(Number.parseInt($(this).attr("data-value"), 10));
